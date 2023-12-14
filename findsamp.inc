@@ -4,15 +4,15 @@
 *   Version: 1.0.0
 *
 *   Funções:
-*   - CheckPlayerVote | Verifica se um jogador já votou ou não no dia.
+*   - CheckPlayerVote | Envia uma verificação do jogador.
 *
 *   Chamados:
-*   - OnPlayerVote | Retorna o PlayerID, Status e Voto (true = votou, false = não votou).
+*   - OnPlayerVote | Retorna informações do voto.
 *
 *
 *   Créditos:
 *   - Equipe do Portal SAMP. (https://servers.portalsamp.com)
-*   - João (pé de feijão) Pedro Alves
+*
 */
 
 #if defined _inc_findsamp
