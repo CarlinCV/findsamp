@@ -4,6 +4,11 @@ Esse include verifica e retorna o status de voto de um servidor e nome específi
 
 Esse include foi feito para ser fácil e prático, você precisa definir apenas o endereço do seu servidor, manipular a callback de retorno. Será anexado um arquivo de exemplo no repositório, você pode ver como funciona.
 
+
+## Dependências
+- [Pawn Request](https://github.com/Southclaws/pawn-requests) - consulta a API do [FindSAMP](https://servers.portalsamp.com/).
+
+
 ## Funções
 
 Envia uma verificação a API sobre o voto do jogador, retorna as informações em `OnPlayerVote`.
@@ -81,9 +86,6 @@ public OnPlayerVote(playerid, status, bool:voted)
 
 > [!TIP]
 > Você pode dar recompensas aos jogadores que votaram em seu servidor, pode ser itens comuns, dinheiro ou VIP's temporários.
-
-## Dependências
-- [Pawn Request](https://github.com/Southclaws/pawn-requests) - consulta a API do [FindSAMP](https://servers.portalsamp.com/).
 
 ## Créditos
 - [CarlinCV](https://github.com/CarlinCV) - correção e reforma do `findsamp.inc`.
