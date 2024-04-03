@@ -61,7 +61,15 @@ static
 new
     Map:LoadRequestToPlayerID;
 
+new 
+    RequestsClient:client2;
+
 forward OnPlayerVote(playerid, status, bool:voted);
+
+public OnGameModeInit()
+{
+    client2 = RequestsClient("https://servers.portalsamp.com/");
+}
 
 stock CheckPlayerVote(playerid)
 {
@@ -70,13 +78,12 @@ stock CheckPlayerVote(playerid)
 
     REQUEST_TIME[playerid] = gettime() + 10;
 
-    new RequestsClient:client = RequestsClient("https://servers.portalsamp.com/");
     new path[128], nickname[MAX_PLAYER_NAME];
 
     GetPlayerName(playerid, nickname, sizeof(nickname));
 
     format(path, sizeof(path), "api/voted/%s?nickname=%s", FINDSAMP_SERVER_IP, nickname);
-    new Request:id = Request(client, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
+    new Request:id = Request(client2, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
     
     // mapeia o id do request pro playerid
     MAP_insert_val_val(LoadRequestToPlayerID, _:id, playerid);
@@ -139,4 +146,15 @@ public OnPlayerConnect(playerid)
 
 #if defined SAMP_FIND_OnPlayerConnect
     forward SAMP_FIND_OnPlayerConnect(playerid);
+#endif
+
+#if defined _ALS_OnGameModeInit
+    #undef OnGameModeInit
+#else
+    #define _ALS_OnGameModeInit
+#endif
+#define OnGameModeInit SAMP_FIND_OnGameModeInit
+
+#if defined SAMP_FIND_OnGameModeInit
+    forward SAMP_FIND_OnGameModeInit();
 #endif
