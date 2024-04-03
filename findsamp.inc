@@ -3,6 +3,8 @@
 *   Author: domingues93 & Carlos Victor
 *   Version: 1.0.0
 *
+*   Contribuidores: pushline
+*
 *   Funções:
 *   - CheckPlayerVote | Envia uma verificação do jogador.
 *
@@ -30,6 +32,19 @@
     #error Required dependency: https://github.com/Southclaws/pawn-requests
 #endif
 
+#tryinclude <memory>
+
+#if !defined __MEMORY_INCLUDED__
+    #error Required dependency: https://github.com/BigETI/pawn-memory
+#endif
+
+#tryinclude <map>
+
+#if !defined __MAP_INCLUDED__
+    #error Required dependency: https://github.com/BigETI/pawn-map
+#endif
+
+
 #if !defined FINDSAMP_SERVER_IP
     #error You need to set your IP in FINDSAMP_SERVER_IP before findsamp.inc
 #endif
@@ -41,8 +56,10 @@
 #endif
 
 static 
-    PLAYERID[FS_MAX_REQUESTS],
     REQUEST_TIME[MAX_PLAYERS];
+
+new
+    Map:LoadRequestToPlayerID;
 
 forward OnPlayerVote(playerid, status, bool:voted);
 
@@ -54,14 +71,15 @@ stock CheckPlayerVote(playerid)
     REQUEST_TIME[playerid] = gettime() + 10;
 
     new RequestsClient:client = RequestsClient("https://servers.portalsamp.com/");
-    PLAYERID[_:client] = playerid;
-
     new path[128], nickname[MAX_PLAYER_NAME];
 
     GetPlayerName(playerid, nickname, sizeof(nickname));
 
     format(path, sizeof(path), "api/voted/%s?nickname=%s", FINDSAMP_SERVER_IP, nickname);
-    Request(client, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
+    new Request:id = Request(client, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
+    
+    // mapeia o id do request pro playerid
+    MAP_insert_val_val(LoadRequestToPlayerID, _:id, playerid);
     return 1;
 }
 
@@ -69,10 +87,11 @@ forward OnFindsampResponse(Request:id, E_HTTP_STATUS:status, data[], dataLen);
 public OnFindsampResponse(Request:id, E_HTTP_STATUS:status, data[], dataLen)
 {
     new 
-        playerid = PLAYERID[_:id],
+        // pega o id do player que foi armazenado no checkplayervote
+        playerid = MAP_get_val_val(LoadRequestToPlayerID, _:id),
         response;
 
-    PLAYERID[_:id] = INVALID_PLAYER_ID;
+    MAP_remove_val(LoadRequestToPlayerID, _:id);
 
     if(!IsPlayerConnected(playerid)) {
         printf("[FindSAMP]: The player %d has disconnected.", playerid);

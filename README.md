@@ -6,8 +6,9 @@ Esse include foi feito para ser fácil e prático, você precisa definir apenas 
 
 
 ## Dependências
-- [Pawn Request](https://github.com/Southclaws/pawn-requests) - consulta a API do [FindSAMP](https://servers.portalsamp.com/).
-
+- [Pawn Requests](https://github.com/Southclaws/pawn-requests) - consulta a API do [FindSAMP](https://servers.portalsamp.com/).
+- [Memory access](https://github.com/BigETI/pawn-memory)
+- [MAP (Hash-map)](https://github.com/BigETI/pawn-map)
 
 ## Funções
 
@@ -88,5 +89,6 @@ public OnPlayerVote(playerid, status, bool:voted)
 > Você pode dar recompensas aos jogadores que votaram em seu servidor, pode ser itens comuns, dinheiro ou VIP's temporários.
 
 ## Créditos
+- [pushline](https://github.com/pushline) - melhorias no código `findsamp.inc`.
 - [CarlinCV](https://github.com/CarlinCV) - correção e reforma do `findsamp.inc`.
 - [domingues93](https://github.com/domingues93) - pela base do `findsamp.inc`.
