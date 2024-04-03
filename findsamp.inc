@@ -62,13 +62,13 @@ new
     Map:LoadRequestToPlayerID;
 
 new 
-    RequestsClient:client2;
+    RequestsClient:client;
 
 forward OnPlayerVote(playerid, status, bool:voted);
 
 public OnGameModeInit()
 {
-    client2 = RequestsClient("https://servers.portalsamp.com/");
+    client = RequestsClient("https://servers.portalsamp.com/");
 }
 
 stock CheckPlayerVote(playerid)
@@ -83,7 +83,7 @@ stock CheckPlayerVote(playerid)
     GetPlayerName(playerid, nickname, sizeof(nickname));
 
     format(path, sizeof(path), "api/voted/%s?nickname=%s", FINDSAMP_SERVER_IP, nickname);
-    new Request:id = Request(client2, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
+    new Request:id = Request(client, path, HTTP_METHOD_GET, "OnFindsampResponse", .headers = RequestHeaders());
     
     // mapeia o id do request pro playerid
     MAP_insert_val_val(LoadRequestToPlayerID, _:id, playerid);
